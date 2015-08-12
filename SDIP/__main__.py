@@ -15,7 +15,7 @@ default_folder = "~"
 
 class init:
     @staticmethod
-    def pkgmgr_installprefix(self):
+    def pkgmgr_installprefix():
         if sys.version_info[0] == 2:
             pkgmgr_installprefix = ['py', '-2']
         elif sys.version_info[0] == 3:
@@ -36,16 +36,12 @@ class init:
     
         if __name__ == '__main__':
             if is_admin == True:
-                print("""
-                      You are running this script as root/administrator.
-                      All installations shall be installed for all users.
-                      """)
+                print("""You are running this script as root/administrator.
+All installations shall be installed for all users.""")
             elif is_admin == False:
-                print("""
-                      You are not running this script as root/administrator.
-                      All installations shall be installed in your user path.
-                      """)
-        while is_admin == None:
+                print("""You are not running this script as root/administrator.
+All installations shall be installed in your user path.""")
+        if is_admin == None:
             cygwinchoice = input("You are using Cygwin. There is no way to determine if you are running as an administrator or not.\nAre you (Y/n)?\nWarning: If you accidentally answer yes, when not running as admin, all installations shall end in error.")
             cygwinadminyes = ['yes', 'ye', 'y']
             cygwinadminno = ['no', 'n']
@@ -57,49 +53,51 @@ class init:
             elif cygwinchoice in cygwinadminno:
                 is_admin = False
     
-        if is_admin == True:
-            installsuffix = []
-        elif is_admin == False:
-            installsuffix = ['--user']
-        return installsuffix
+        return is_admin
 
+    @staticmethod
     def installer():
         if sys.version_info < (2, 4):
             easy_install = False
             legacy_easy_install = False
-            print("Easy_Install is incompatable with this version.")
-        elif (sys.version_info == (2, 4) or sys.version_info == (2, 5):
+            if __name__ == '__main__':
+                print("Easy_Install is incompatable with this version.")
+        elif (sys.version_info == (2, 4) or sys.version_info == (2, 5)):
             easy_install = True
             legacy_easy_install = True
         elif sys.version_info >= (2, 6)
             easy_install = True
             legacy_easy_install = False
+
         if (sys.version_info < (2, 6) or sys.version_info == (3, 0) or sys.version_info == (3, 1)):
             pip = False
+            if __name__ == '__main__':
+                print("PIP is incompatible with this version")
         else:
             pip = True
-        if (pip == False and easy_install == False):
-            installmethod = "1"
-            installoptions = ["1"]
-        elif (pip == True and easy_install == False):
-            installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"2\" without quotes if you would like to install via pip.\n")
-            installoptions = ["1", "2"]
-        elif (pip == False and easy_install == True):
-            installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"3\" without quotes if you would like to install via easy_install.\n")
-            installoptions = ["1", "3"]
-        elif (pip == True and easy_install == True):
-            installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"2\" without quotes if you would like to install via pip.\nInput \"3\" without quotes if you would like to install via easy_install.\n")
-            installoptions = ["1", "2", "3"]
-        while installmethod not in installoptions:
-            print("You did not input correctly")
-            if (pip == True and easy_install == False):
-                installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"2\" without quotes if you would like to install via pip.\n")
-            elif (pip == False and easy_install == True):
-                installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"3\" without quotes if you would like to install via easy_install.\n")
-            elif (pip == True and easy_install == True):
-                installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"2\" without quotes if you would like to install via pip.\nInput \"3\" without quotes if you would like to install via easy_install.\n")
-        return installmethod, legacy_easy_install
 
+#        if (pip == False and easy_install == False):
+#            installmethod = "1"
+#            installoptions = ["1"]
+#        elif (pip == True and easy_install == False):
+#            installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"2\" without quotes if you would like to install via pip.\n")
+#            installoptions = ["1", "2"]
+#        elif (pip == False and easy_install == True):
+#            installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"3\" without quotes if you would like to install via easy_install.\n")
+#            installoptions = ["1", "3"]
+#        elif (pip == True and easy_install == True):
+#            installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"2\" without quotes if you would like to install via pip.\nInput \"3\" without quotes if you would like to install via easy_install.\n")
+#            installoptions = ["1", "2", "3"]
+#        while installmethod not in installoptions:
+#            print("You did not input correctly")
+#            if (pip == True and easy_install == False):
+#                installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"2\" without quotes if you would like to install via pip.\n")
+#            elif (pip == False and easy_install == True):
+#                installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"3\" without quotes if you would like to install via easy_install.\n")
+#            elif (pip == True and easy_install == True):
+#                installmethod = input("Input \"1\" without quotes if you would like to install via a local setup.py.\nInput \"2\" without quotes if you would like to install via pip.\nInput \"3\" without quotes if you would like to install via easy_install.\n")
+#        return installmethod, legacy_easy_install
+        return pip, easy_install, legacy_easy_install
 
 class install_package:
     def default(choosefile=None):
